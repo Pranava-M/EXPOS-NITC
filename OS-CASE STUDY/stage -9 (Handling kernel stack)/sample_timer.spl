@@ -1,0 +1,21 @@
+// Save user SP in Process Table
+[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * 16) + 13] = SP;
+
+// Switch to kernel stack (User Area page * 512 - 1)
+SP = [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * 16) + 11] * 512 - 1;
+
+// Save user context
+backup;
+
+// Kernel work
+print "TIMER";
+
+// Restore user context
+restore;
+
+// Restore user SP
+SP = [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * 16) + 13];
+
+// Return to user mode
+ireturn;
+
